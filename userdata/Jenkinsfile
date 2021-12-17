@@ -1,0 +1,34 @@
+pipeline {
+     agent any
+     stages {
+         stage('Fetch Code') {
+             steps {
+                 git branch: 'paac', url: 'https://github.com/bothwellsitholle/vprofile-project.git'
+             }
+         }
+         stage('Build Code') {
+             steps {
+                 sh 'mvn install'
+             }
+         }
+         stage('Test') {
+             steps {
+                 sh 'mvn test'
+             }
+         }
+     }
+}
+
+
+Jenkins Job URL
+    http://18.117.219.5:8080/job/Build/build?token=mytoken
+
+Token
+    admin token: 11c906f79996a1a9c4ebdae8d9cc9462d4
+    token  name: 'mytoken'
+
+Crumb
+    wget -q --auth-no-challenge --user admin --password Bothie93! --output-document - 'http://18.117.219.5:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)'
+    Jenkins-Crumb: fdfaa6ccca9e8f273cd6a75fae87da6fc7ddfc1a0ed67f0901b10c44ad53a8b4%     
+
+curl -I -X POST http://admin:11c906f79996a1a9c4ebdae8d9cc9462d4@18.117.219.5:8080/job/Build/build?token=mytoken -H "Jenkins-Crumb:344f53c99f9d609f32824da1d9ad7e51151fb20efbef2db10d10d2501b0e21e7"
